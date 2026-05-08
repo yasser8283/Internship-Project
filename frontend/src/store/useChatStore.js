@@ -47,29 +47,29 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  // 🔇 SOCKET DISABLED
+ 
   subscribeToMessages: () => {
     const { selectedUser } = get();
     if (!selectedUser) return;
 
-    // const socket = useAuthStore.getState().socket;
+    const socket = useAuthStore.getState().socket;
 
-    // socket.on("newMessage", (newMessage) => {
-    //   const isMessageSentFromSelectedUser =
-    //     newMessage.senderId === selectedUser._id;
+    socket.on("newMessage", (newMessage) => {
+      const isMessageSentFromSelectedUser =
+        newMessage.senderId === selectedUser._id;
 
-    //   if (!isMessageSentFromSelectedUser) return;
+      if (!isMessageSentFromSelectedUser) return;
 
-    //   set({
-    //     messages: [...get().messages, newMessage],
-    //   });
-    // });
+      set({
+        messages: [...get().messages, newMessage],
+      });
+    });
   },
 
-  // 🔇 SOCKET DISABLED
+
   unsubscribeFromMessages: () => {
-    // const socket = useAuthStore.getState().socket;
-    // socket.off("newMessage");
+    const socket = useAuthStore.getState().socket;
+    socket.off("newMessage");
   },
 
   setSelectedUser: (selectedUser) => set({ selectedUser }),
