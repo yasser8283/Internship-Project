@@ -51,7 +51,7 @@ export const useAuthStore = create((set, get) => ({
 
       get().connectSocket();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message|| "Something went wrong");
     } finally {
       set({ isLoggingIn: false });
     }
@@ -78,6 +78,7 @@ export const useAuthStore = create((set, get) => ({
       query: {
         userId: authUser._id,
       },
+      withCredentials: true,
     });
     socket.connect();
 
@@ -88,6 +89,11 @@ export const useAuthStore = create((set, get) => ({
     });
   },
   disconnectSocket: () => {
-    if (get().socket?.connected) get().socket.disconnect();
-  },
+  if (get().socket?.connected) {
+    get().socket.disconnect();
+  }
+
+  set({ socket: null });
+},
+ 
 }));
